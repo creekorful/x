@@ -41,7 +41,7 @@ int parse_operation(const char *line, Operation *operation)
             return 1;
     }
 
-    operation->package = malloc(strlen(line-1));
+    operation->package = malloc(strlen(line - 1));
     strcpy(operation->package, ++line);
 
     return 0;
@@ -56,8 +56,7 @@ int free_operations(Operation **operations, int count)
 {
     int ret = 0;
     int i;
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++) {
         if (free_operation(operations[i]) != 0) {
             ret = 1;
         }
@@ -68,6 +67,11 @@ int free_operations(Operation **operations, int count)
 
 int execute_operation(const Operation operation)
 {
+    // On linux update local cache first before everything
+#if __linux__
+    system("apt update");
+#endif
+
     char cmd[255] = "";
     switch (operation.opType) {
         case Install:

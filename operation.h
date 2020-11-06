@@ -22,7 +22,7 @@ int parse_operations(int argc, char **argv, Operation **operations);
 
 int parse_operation(const char *line, Operation *operation);
 
-int free_operation(Operation* operation);
+int free_operation(Operation *operation);
 
 int free_operations(Operation **operations, int count);
 
