@@ -83,9 +83,17 @@ int execute_operation(const Operation operation)
             break;
         case Update:
 #if __APPLE__
-            sprintf(cmd, "brew upgrade %s", operation.package);
+            if (operation.package == NULL) {
+                sprintf(cmd, "brew upgrade");
+            } else {
+                sprintf(cmd, "brew upgrade %s", operation.package);
+            }
 #elif __linux__
-            sprintf(cmd, "apt --only-upgrade install %s", operation.package);
+            if (operation.package == NULL) {
+                sprintf(cmd, "apt upgrade -y");
+            } else {
+                sprintf(cmd, "apt --only-upgrade install %s", operation.package);
+            }
 #endif
             break;
         case Remove:
