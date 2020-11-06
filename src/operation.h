@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define APT_PATH "/usr/bin/apt"
+#define BREW_PATH "/usr/local/bin/brew"
+
 enum OperationType
 {
     Install,
@@ -18,14 +21,12 @@ struct Operation
     char *package;
 } typedef Operation;
 
-int parse_operations(int argc, char **argv, Operation **operations);
+int operation_parses(int argc, char **argv, Operation **operations);
 
-int parse_operation(const char *line, Operation *operation);
+int operation_parse(char *line, Operation *operation);
 
-int free_operation(Operation *operation);
+int operation_free(Operation *operation);
 
-int free_operations(Operation **operations, int count);
-
-int execute_operation(Operation operation);
+int operation_execute(Operation operation);
 
 #endif //X_OPERATION_H
