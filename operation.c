@@ -71,13 +71,25 @@ int execute_operation(const Operation operation)
     char cmd[255] = "";
     switch (operation.opType) {
         case Install:
+#if __APPLE__
             sprintf(cmd, "brew install %s", operation.package);
+#elif __linux__
+            sprintf(cmd, "apt install -y %s", operation.package);
+#endif
             break;
         case Update:
+#if __APPLE__
             sprintf(cmd, "brew upgrade %s", operation.package);
+#elif __linux__
+            sprintf(cmd, "apt --only-upgrade install %s", operation.package);
+#endif
             break;
         case Remove:
+#if __APPLE__
             sprintf(cmd, "brew remove %s", operation.package);
+#elif __linux__
+            sprintf(cmd, "apt remove -y %s", operation.package);
+#endif
             break;
     }
 
