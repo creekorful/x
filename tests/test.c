@@ -78,6 +78,32 @@ int test_update_gcc()
     return 0;
 }
 
+int test_update_all_packages()
+{
+    printf("--- executing test_update_all_packages\n");
+
+    char *line = "^";
+
+    Operation operation;
+    if (operation_parse(line, &operation) != 0) {
+        printf("failed to parse the operation\n");
+        return 1;
+    }
+
+    if (operation.opType != Update) {
+        printf("wrong operation type");
+        return 1;
+    }
+    if (operation.package != NULL) {
+        printf("wrong package");
+        return 1;
+    }
+
+    printf("--- passed test_update_all_packages\n");
+
+    return 0;
+}
+
 int main()
 {
     printf("--- executing tests\n");
@@ -89,6 +115,9 @@ int main()
         return 1;
     }
     if (test_update_gcc() != 0) {
+        return 1;
+    }
+    if (test_update_all_packages() != 0) {
         return 1;
     }
 
