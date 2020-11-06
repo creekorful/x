@@ -21,7 +21,7 @@ $ x +vim -neofetch ^gcc
 
 (you can chain as many operations as you want)
 
-Let's say we want to update all installed programs:
+There's even a shortcut to update all installed packages:
 
 ```
 $ x ^
@@ -35,3 +35,13 @@ $ x ^
 # Why?
 
 ... Because why not?
+
+# I want to install it
+
+You shouldn't, but here's how to do it:
+
+```
+$ cmake -DCMAKE_BUILD_TYPE=Release -B cmake-build-release .
+$ cd cmake-build-release
+$ sudo make install
+```
