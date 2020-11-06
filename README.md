@@ -30,6 +30,7 @@ $ x ^
 # Supported package managers
 
 - Brew (will be used in case OS == MacOS)
+- APT (will be used in case OS == linux)
 
 # Why?
 
