@@ -8,7 +8,6 @@ int parse_operations(int argc, char **argv, Operation **operations)
     for (i = 0; i < argc; i++) {
         Operation operation;
         if (parse_operation(argv[i], &operation) != 0) {
-            fprintf(stderr, "error while parsing operation `%s`\n", argv[i]);
             return 1;
         }
 
@@ -65,4 +64,22 @@ int free_operations(Operation **operations, int count)
     }
 
     return ret;
+}
+
+int execute_operation(const Operation operation)
+{
+    char cmd[255] = "";
+    switch (operation.opType) {
+        case Install:
+            sprintf(cmd, "brew install %s", operation.package);
+            break;
+        case Update:
+            sprintf(cmd, "brew upgrade %s", operation.package);
+            break;
+        case Remove:
+            sprintf(cmd, "brew remove %s", operation.package);
+            break;
+    }
+
+    return system(cmd);
 }

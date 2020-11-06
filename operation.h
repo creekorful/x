@@ -26,4 +26,6 @@ int free_operation(Operation* operation);
 
 int free_operations(Operation **operations, int count);
 
+int execute_operation(Operation operation);
+
 #endif //X_OPERATION_H
