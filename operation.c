@@ -69,38 +69,38 @@ int execute_operation(const Operation operation)
 {
     // On linux update local cache first before everything
 #if __linux__
-    system("apt update");
+    system("/usr/bin/apt update");
 #endif
 
     char cmd[255] = "";
     switch (operation.opType) {
         case Install:
 #if __APPLE__
-            sprintf(cmd, "brew install %s", operation.package);
+            sprintf(cmd, "/usr/local/bin/brew install %s", operation.package);
 #elif __linux__
-            sprintf(cmd, "apt install -y %s", operation.package);
+            sprintf(cmd, "/usr/bin/apt install -y %s", operation.package);
 #endif
             break;
         case Update:
 #if __APPLE__
             if (operation.package == NULL) {
-                sprintf(cmd, "brew upgrade");
+                sprintf(cmd, "/usr/local/bin/brew upgrade");
             } else {
-                sprintf(cmd, "brew upgrade %s", operation.package);
+                sprintf(cmd, "/usr/local/bin/brew upgrade %s", operation.package);
             }
 #elif __linux__
             if (operation.package == NULL) {
-                sprintf(cmd, "apt upgrade -y");
+                sprintf(cmd, "/usr/bin/apt upgrade -y");
             } else {
-                sprintf(cmd, "apt --only-upgrade install %s", operation.package);
+                sprintf(cmd, "/usr/bin/apt --only-upgrade install %s", operation.package);
             }
 #endif
             break;
         case Remove:
 #if __APPLE__
-            sprintf(cmd, "brew remove %s", operation.package);
+            sprintf(cmd, "/usr/local/bin/brew remove %s", operation.package);
 #elif __linux__
-            sprintf(cmd, "apt remove -y %s", operation.package);
+            sprintf(cmd, "/usr/bin/apt remove -y %s", operation.package);
 #endif
             break;
     }
