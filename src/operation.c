@@ -67,6 +67,8 @@ int operation_execute(Operation operation)
             sprintf(cmd, "%s install %s", BREW_PATH, operation.package);
 #elif __linux__
             sprintf(cmd, "%s install -y %s", APT_PATH, operation.package);
+#elif _WIN32
+            sprintf(cmd, "%s install -y %s", CHOCO_PATH, operation.package);
 #endif
             break;
         case Update:
@@ -80,6 +82,11 @@ int operation_execute(Operation operation)
                 sprintf(cmd, "%s upgrade -y", APT_PATH);
             else
                 sprintf(cmd, "%s --only-upgrade install %s", APT_PATH, operation.package);
+#elif _WIN32
+            if (operation.package == NULL)
+                sprintf(cmd, "%s upgrade -y all", CHOCO_PATH);
+            else
+                sprintf(cmd, "%s upgrade -y %s", CHOCO_PATH, operation.package);
 #endif
             break;
         case Remove:
@@ -87,6 +94,8 @@ int operation_execute(Operation operation)
             sprintf(cmd, "%s remove %s", BREW_PATH, operation.package);
 #elif __linux__
             sprintf(cmd, "%s remove -y %s", APT_PATH, operation.package);
+#elif _WIN32
+            sprintf(cmd, "%s uninstall %s", CHOCO_PATH, operation.package);
 #endif
             break;
     }
