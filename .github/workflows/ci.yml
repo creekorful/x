@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-latest, macos-latest ]
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
@@ -43,7 +43,3 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: ./x_test
-
-      - name: Test (Win32)
-        if: matrix.os == 'windows-latest'
-        run: ${{runner.workspace}}\build\Debug\x_test.exe
