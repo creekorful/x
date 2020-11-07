@@ -7,6 +7,7 @@
 
 #define APT_PATH "/usr/bin/apt"
 #define BREW_PATH "/usr/local/bin/brew"
+#define CHOCO_PATH "choco"
 
 enum OperationType
 {
