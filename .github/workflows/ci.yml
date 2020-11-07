@@ -38,7 +38,14 @@ jobs:
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --config $BUILD_TYPE
 
-      - name: Test
+      - name: Test (Unix)
+        if: matrix.os != 'windows-latest'
         working-directory: ${{runner.workspace}}/build
         shell: bash
-        run: ./x_test*
+        run: ./x_test
+
+      - name: Test (Win32)
+        if: matrix.os == 'windows-latest'
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: ./x_test.exe
