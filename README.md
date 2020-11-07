@@ -31,6 +31,7 @@ $ x ^
 
 - Brew (will be used in case OS == MacOS)
 - APT (will be used in case OS == linux)
+- Chocolatey (will be used in case OS == windows)
 
 # Why?
 
