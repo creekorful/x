@@ -48,4 +48,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         working-directory: ${{runner.workspace}}/build
         shell: bash
-        run: dir
+        run: tree
