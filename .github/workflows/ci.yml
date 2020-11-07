@@ -47,4 +47,4 @@ jobs:
       - name: Test (Win32)
         if: matrix.os == 'windows-latest'
         working-directory: ${{runner.workspace}}/build/Debug
-        run: x_test.exe
+        run: .\x_test.exe
