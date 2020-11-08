@@ -1,6 +1,7 @@
 # x
 
 Personal little experiment to write a little unified package manager facade.
+
 This is just a funny little project and not destined at larger usage.
 
 ## usage
@@ -42,7 +43,5 @@ $ x ^
 You shouldn't, but here's how to do it:
 
 ```
-$ cmake -DCMAKE_BUILD_TYPE=Release -B cmake-build-release .
-$ cd cmake-build-release
-$ sudo make install
+$ cargo install --path .
 ```
