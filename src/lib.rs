@@ -1,3 +1,4 @@
+use crate::Operation::Update;
 use std::error::Error;
 
 #[derive(PartialEq, Debug)]
@@ -61,8 +62,15 @@ pub fn parse_operations<I>(args: I) -> Result<Vec<Operation>, Box<dyn Error>>
 where
     I: IntoIterator<Item = String>,
 {
-    for operation in args {
+    let mut operations = Vec::new();
+
+    for arg in args {
+        // Manage case update all packages
+        if arg == "^" {
+            operations.push(Update(None));
+            continue;
+        }
     }
 
-    Ok([].into())
+    Ok(operations)
 }
