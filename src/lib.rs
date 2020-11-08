@@ -70,6 +70,16 @@ where
             operations.push(Update(None));
             continue;
         }
+
+        let token = arg.as_bytes()[0] as char;
+        match token {
+            '+' => {}
+            '-' => {}
+            '^' => {}
+            _ => {
+                return Err(format!("invalid token: {}", token).into());
+            }
+        }
     }
 
     Ok(operations)
