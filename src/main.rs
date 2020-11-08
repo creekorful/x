@@ -1,3 +1,6 @@
+use std::env;
+use x::parse_operations;
+
 fn main() {
-    println!("Hello, world!");
+    parse_operations(env::args());
 }
