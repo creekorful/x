@@ -11,6 +11,12 @@ fn main() {
     };
 
     for operation in operations {
-        println!("{:?}", operation);
+        match operation.execute() {
+            Ok(_) => {}
+            Err(e) => {
+                eprintln!("error while executing operation: {}", e);
+                process::exit(1);
+            }
+        }
     }
 }

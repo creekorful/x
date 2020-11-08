@@ -1,5 +1,6 @@
 use crate::Operation::{Install, Remove, Update};
 use std::error::Error;
+use std::process::{Command, Stdio};
 
 #[derive(PartialEq, Debug)]
 pub enum Operation {
@@ -9,8 +10,8 @@ pub enum Operation {
 }
 
 impl Operation {
-    fn execute(&self) -> Result<(), Box<dyn Error>> {
-        Ok(())
+    pub fn execute(&self) -> Result<(), Box<dyn Error>> {
+        execute(self)
     }
 }
 
@@ -84,4 +85,53 @@ where
     }
 
     Ok(operations)
+}
+
+#[cfg(target_os = "linux")]
+fn execute(operation: &Operation) -> Result<(), Box<dyn Error>> {
+    // First of all update local cache
+    execute_cmd("apt", &["update", "-y"])?;
+
+    match operation {
+        Install(package) => execute_cmd("apt", &["install", "-y", package]),
+        Update(package) => match package {
+            Some(package) => execute_cmd("apt", &["--only-upgrade", "install", package]),
+            None => execute_cmd("apt", &["upgrade", "-y"]),
+        },
+        Remove(package) => execute_cmd("apt", &["remove", "-y", package]),
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn execute(operation: &Operation) -> Result<(), Box<dyn Error>> {
+    match operation {
+        Install(package) => execute_cmd("brew", &["install", package]),
+        Update(package) => match package {
+            Some(package) => execute_cmd("brew", &["upgrade", package]),
+            None => execute_cmd("brew", &["upgrade"]),
+        },
+        Remove(package) => execute_cmd("brew", &["remove", package]),
+    }
+}
+
+#[cfg(target_os = "windows")]
+fn execute(operation: &Operation) -> Result<(), Box<dyn Error>> {
+    match operation {
+        Install(package) => execute_cmd("choco", &["install", "-y", package]),
+        Update(package) => match package {
+            Some(package) => execute_cmd("choco", &["upgrade", "-y", package]),
+            None => execute_cmd("choco", &["upgrade", "-y", "all"]),
+        },
+        Remove(package) => execute_cmd("choco", &["uninstall", package]),
+    }
+}
+
+fn execute_cmd(cmd: &str, args: &[&str]) -> Result<(), Box<dyn Error>> {
+    Command::new(cmd)
+        .args(args)
+        .stdout(Stdio::inherit())
+        .spawn()
+        .map(|mut c| c.wait())
+        .map(|_| ())
+        .map_err(|e| e.into())
 }
