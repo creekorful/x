@@ -1,4 +1,4 @@
-use crate::Operation::Update;
+use crate::Operation::{Install, Remove, Update};
 use std::error::Error;
 
 #[derive(PartialEq, Debug)]
@@ -72,14 +72,15 @@ where
         }
 
         let token = arg.as_bytes()[0] as char;
-        match token {
-            '+' => {}
-            '-' => {}
-            '^' => {}
+        let operation = match token {
+            '+' => Install(arg.as_str()[1..].to_string()),
+            '-' => Remove(arg.as_str()[1..].to_string()),
+            '^' => Update(Some(arg.as_str()[1..].to_string())),
             _ => {
                 return Err(format!("invalid token: {}", token).into());
             }
-        }
+        };
+        operations.push(operation);
     }
 
     Ok(operations)
